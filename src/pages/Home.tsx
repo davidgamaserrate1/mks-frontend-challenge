@@ -33,16 +33,11 @@ const Home = ()=>{
                 .get(products_api.toString())
                 .then((response)=>response.data)
             },{
-                retry: 3
-        })
+                retry: 3                
+            }
+            )
     
-    if(isLoading){
-        return(
-            <div>
-                Carregando...
-            </div>
-        )
-    }
+   
 
     if(error){
         return(
@@ -57,16 +52,24 @@ const Home = ()=>{
         <Header />
         <HomeStyles>
             <Products>
-             {data.products.map((product:Product) =>
-             <ProductCard 
-                id={product.id} 
-                name={product.name} 
-                brand={product.name} 
-                description={product.description} 
-                photo={product.photo} 
-                price={product.price}                
-             />
-             )}
+                { isLoading ?                
+                <div>
+                    Carregando...
+                </div>
+                :
+                data.products.map((product:Product) =>
+                    <ProductCard 
+                        id={product.id} 
+                        name={product.name} 
+                        brand={product.name} 
+                        description={product.description} 
+                        photo={product.photo} 
+                        price={product.price}                
+                    />
+                    )
+            
+                }
+            
 
             </Products>
         </HomeStyles>
