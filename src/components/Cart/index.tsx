@@ -1,9 +1,8 @@
 import { useState } from "react"
 import { countItens, selectValue, useItems } from "../../redux/sliceItems"
 import {useSelector} from 'react-redux'
-import { useDispatch } from 'react-redux';
 import styled from "styled-components"
-import CartItemRow  from "../CartItem"
+import CartItemRow from "../CartItemRow";
  
 const CartDiv = styled.div`
     width: 50px;
@@ -106,7 +105,6 @@ const Cart = ( ) =>{
     const items = useSelector(useItems)
     const total = useSelector(selectValue)
     const countItems = useSelector(countItens)
- 
 
     return (
         <>  
