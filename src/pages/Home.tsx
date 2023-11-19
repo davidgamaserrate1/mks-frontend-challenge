@@ -4,14 +4,16 @@ import { Product } from '../types'
 import Header from '../components/Header'
 import ProductCard from '../components/ProductCard'
 import styled from 'styled-components'
+import Cart from '../components/Cart'
 
 const HomeStyles = styled.div`
     background-color: #FAFAFB;
     display: flex;
     justify-content: center;
-    height: 100vh;
+    height: calc(100vh - 88px);
     gap: 16px;
     flex-wrap: wrap;
+    position: relative;
 `
 
 const Products = styled.div`
@@ -22,6 +24,8 @@ const Products = styled.div`
     height: 738px;
     padding: 94px 86px 0;
     gap: 16px;
+    background-color: #FAFAFB;
+
 
 `
 
@@ -32,12 +36,7 @@ const Home = ()=>{
             return axios
                 .get(products_api.toString())
                 .then((response)=>response.data)
-            },{
-                retry: 3                
-            }
-            )
-    
-   
+            },{ retry: 3 })
 
     if(error){
         return(
@@ -53,25 +52,25 @@ const Home = ()=>{
         <HomeStyles>
             <Products>
                 { isLoading ?                
-                <div>
-                    Carregando...
-                </div>
-                :
-                data.products.map((product:Product) =>
-                    <ProductCard 
-                        id={product.id} 
-                        name={product.name} 
-                        brand={product.name} 
-                        description={product.description} 
-                        photo={product.photo} 
-                        price={product.price}                
-                    />
-                    )
+                    <div>
+                        Carregando...
+                    </div>
+                    :
+                    data.products
+                        .map( (product:Product) => 
+                            <ProductCard id={product.id} 
+                                name={product.name} 
+                                brand={product.name} 
+                                description={product.description} 
+                                photo={product.photo} 
+                                price={product.price} 
+                            />)
             
                 }
             
 
             </Products>
+            <Cart />
         </HomeStyles>
         </>
     )

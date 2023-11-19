@@ -8,6 +8,7 @@ const HeaderStyles = styled.div`
     height: 88px;
     font-weight: bold;
     color: #fff;
+     
 `
  
 const Header = ()=>{
