@@ -1,6 +1,12 @@
 import styled from "styled-components"
 import { Product } from "../../types"
 
+import {useSelector} from 'react-redux'
+import { addItemToCart, useItems } from "../../redux/sliceItems"
+import { useDispatch } from 'react-redux';
+
+ 
+
 const ProductDiv = styled.div`
     display:flex;
     justify-content: center;
@@ -60,7 +66,22 @@ const ProductAddCartButton = styled.button`
     border-radius: 10px;
 `;
 
+
+
+
 const ProductCard = (props:Product) =>{
+    const dispatch = useDispatch();
+   
+    const handleAddToCart = () => {
+        const itemAdd  = {
+            id: props.id,
+            name:props.name,
+            quantity: 1,
+            price: props.price,
+        }
+        dispatch(addItemToCart(itemAdd)); 
+    };
+
     return(
         <ProductDiv>
             <ProductImage src={props.photo} alt={props.name}/>
@@ -69,7 +90,7 @@ const ProductCard = (props:Product) =>{
             
             <ProductPriceAndCart>
                 <ProductPrice> R${props.price} </ProductPrice>
-                <ProductAddCartButton>
+                <ProductAddCartButton onClick={handleAddToCart}>
                     <span className="material-symbols-outlined">shopping_cart</span>    
                     Adicionar
                 </ProductAddCartButton>

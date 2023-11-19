@@ -1,10 +1,15 @@
 import { useState } from "react"
 import styled from "styled-components"
-import { Product } from "../../types"
+import { addItemToCart, useItems } from "../../redux/sliceItems"
+import {useSelector} from 'react-redux'
+import { CartItem } from "../../types"
+
+import { useDispatch } from 'react-redux';
+ 
 
 const CartDiv = styled.div`
-    width: 80px;
-    height: 80px;
+    width: 50px;
+    height: 50px;
     background-color: #2D7AFA;
     border-radius: 100px;
     display: flex;
@@ -16,17 +21,16 @@ const CartDiv = styled.div`
     color: #fff;
 
     .material-symbols-outlined{
-        font-size: 35px;
+        font-size: 30px;
     }
 
     &:hover{
         cursor: pointer;
     }
 `
-
 const CartModal = styled.div`
-    height: 400px;
-    width: 300px;
+    max-height: 400px;
+    width: 350px;
     background-color: #fff;
     position: fixed;
     right: 24px;
@@ -47,8 +51,6 @@ const CartModalTittle = styled.div`
 `
 const CartModalCloseButton = styled.div`
    position: relative;
-    
-
    .material-symbols-outlined{
         position: absolute;
         right: 16px;
@@ -61,30 +63,100 @@ const CartModalCloseButton = styled.div`
         }
     }
 `
+const CartItems = styled.div`
+    display: flex;
+    flex-wrap: wrap;    
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto 0;
+    max-height: 150px;
+    overflow-y: scroll;
+    border: 1px solid #f0f0f0;
+    padding: 4px;
+`
 
+const CartItemDiv = styled.div`
+    display: flex;
+    width: 100%;
+    justify-content :space-around ;
+    align-items: center;
+    margin: 4px 0;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 4px;
+`
+const CartItemName = styled.div`
+   width: 33.33%;
+   text-align: left;
+`
+const CartItemPrice = styled.div`
+    width: 33.33%;
+    text-align: center;
+`
+const CardItemQuantityControll = styled.div`
+    display: flex;
+    width: 33.33%;
+    border: 1px solid #f0f0f0;
+    justify-content: center;
+    .material-symbols-outlined{
+        &:hover{
+            cursor: pointer;
+        }
+    }
+
+`
+
+const CartItemQuantity = styled.div`
+    width: 33.33%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
 const Cart = ( ) =>{
     const [isOpen, setIsOpen] =useState(false)
+    const dispatch = useDispatch();
 
     const onOpen = ()=>{
         setIsOpen(!isOpen)
     }
 
+    const items = useSelector(useItems)
+
+    const handleAddToCart = (item:CartItem) => {
+        dispatch(addItemToCart(item)); 
+    };
+
     return (
         <>  
-            {isOpen && 
-                <CartModal >
-                    <CartModalCloseButton>
-                        <span onClick={onOpen} className="material-symbols-outlined">close</span>
-                    </CartModalCloseButton>
-                    <CartModalTittle> 
-                        <span className="material-symbols-outlined">shopping_cart</span>  meu carinho
-                    </CartModalTittle>
-                    
-                </CartModal>
-            }
-            <CartDiv onClick={onOpen}>
-                <span className="material-symbols-outlined">shopping_cart</span>    
-            </CartDiv>
+        {isOpen && 
+            <CartModal >
+                <CartModalCloseButton>
+                    <span onClick={onOpen} className="material-symbols-outlined">close</span>
+                </CartModalCloseButton>
+                <CartModalTittle> 
+                    <span className="material-symbols-outlined">shopping_cart</span>  meu carinho
+                </CartModalTittle>
+                <CartItems>
+                    {items.map((item)=>(
+                        <CartItemDiv>
+                            <CartItemName>{item.name}</CartItemName>
+                            <CartItemPrice>R${item.price}</CartItemPrice>
+                            <CardItemQuantityControll>
+                            {item.quantity > 1 && <span className="material-symbols-outlined">remove</span>  }
+                                <CartItemQuantity>
+                                    {item.quantity}  
+                                </CartItemQuantity>
+                                <span className="material-symbols-outlined" onClick={()=>handleAddToCart(item)}>add</span>    
+                            </CardItemQuantityControll>    
+                        </CartItemDiv>
+                    ))}
+                </CartItems>
+                
+            </CartModal>
+        }
+        <CartDiv onClick={onOpen}>
+            <span className="material-symbols-outlined">shopping_cart</span>    
+        </CartDiv>
         </>
     )
 }
