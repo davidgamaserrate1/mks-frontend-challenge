@@ -153,18 +153,22 @@ const Cart = ( ) =>{
                     <span className="material-symbols-outlined">shopping_cart</span>  meu carinho
                 </CartModalTittle>
                 <CartItems>
-                    {items.map((item)=>(
-                        <CartItemDiv>
-                            <CartItemName>{item.name}</CartItemName>
-                            <CartItemPrice>R${item.price}</CartItemPrice>
-                            <CardItemQuantityControll>
-                                {item.quantity > 1 && <span className="material-symbols-outlined" onClick={()=>handleDecrementCart(item)}>remove</span>  }
-                                <CartItemQuantity> {item.quantity}  </CartItemQuantity>
-                                <span className="material-symbols-outlined" onClick={()=>handleAddToCart(item)}>add</span>    
-                                <span className="material-symbols-outlined" onClick={()=>handleRemoveFromCart(item)}>delete</span>    
-                            </CardItemQuantityControll>
-                        </CartItemDiv>
-                    ))}
+                    {items.length> 0 ? (
+                        items.map((item)=>(
+                            <CartItemDiv>
+                                <CartItemName>{item.name}</CartItemName>
+                                <CartItemPrice>R${item.price}</CartItemPrice>
+                                <CardItemQuantityControll>
+                                    {item.quantity > 1 && <span className="material-symbols-outlined" onClick={()=>handleDecrementCart(item)}>remove</span>  }
+                                    <CartItemQuantity> {item.quantity}  </CartItemQuantity>
+                                    <span className="material-symbols-outlined" onClick={()=>handleAddToCart(item)}>add</span>    
+                                    <span className="material-symbols-outlined" onClick={()=>handleRemoveFromCart(item)}>delete</span>    
+                                </CardItemQuantityControll>
+                            </CartItemDiv>
+                        ))
+                    ): <>Carrinho vazio</>
+                    }
+                    
                 </CartItems>
                 <CartItemTotal>
                     <div> Total</div>
