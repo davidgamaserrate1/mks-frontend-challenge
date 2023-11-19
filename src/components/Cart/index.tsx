@@ -1,6 +1,6 @@
 import { useState } from "react"
 import styled from "styled-components"
-import { addItemToCart, useItems } from "../../redux/sliceItems"
+import { addItemToCart, decrementItemQuantity, useItems } from "../../redux/sliceItems"
 import {useSelector} from 'react-redux'
 import { CartItem } from "../../types"
 
@@ -125,6 +125,9 @@ const Cart = ( ) =>{
     const handleAddToCart = (item:CartItem) => {
         dispatch(addItemToCart(item)); 
     };
+    const handleRemoveFroCart = (item:CartItem) => {
+        dispatch(decrementItemQuantity(item)); 
+    };
 
     return (
         <>  
@@ -142,10 +145,8 @@ const Cart = ( ) =>{
                             <CartItemName>{item.name}</CartItemName>
                             <CartItemPrice>R${item.price}</CartItemPrice>
                             <CardItemQuantityControll>
-                            {item.quantity > 1 && <span className="material-symbols-outlined">remove</span>  }
-                                <CartItemQuantity>
-                                    {item.quantity}  
-                                </CartItemQuantity>
+                                {item.quantity > 1 && <span className="material-symbols-outlined" onClick={()=>handleRemoveFroCart(item)}>remove</span>  }
+                                <CartItemQuantity> {item.quantity}  </CartItemQuantity>
                                 <span className="material-symbols-outlined" onClick={()=>handleAddToCart(item)}>add</span>    
                             </CardItemQuantityControll>    
                         </CartItemDiv>

@@ -21,7 +21,7 @@ const Products = styled.div`
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    width: 1281px;
+    width: 1300px;
     height: 738px;
     padding: 94px 86px 0;
     gap: 16px;

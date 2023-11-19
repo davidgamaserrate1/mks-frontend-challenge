@@ -20,13 +20,23 @@ const sliceItems = createSlice({
             } else {
               return [...state, { ...payload, quantity: 1, price: Number(payload.price) }];
             }
-          },
+        },
+        
+        decrementItemQuantity(state, { payload }) {
+          return state.map((item) => {
+            if (item.id === payload.id && item.quantity > 1) {
+              return { ...item, quantity: item.quantity - 1 };
+            }
+            return item;
+          });
+          
+        },
     }
 })
 
 
 export default sliceItems.reducer
-export const { addItemToCart } = sliceItems.actions
+export const { addItemToCart, decrementItemQuantity } = sliceItems.actions
 
 export const useItems = (state: any) =>{
     return state.items as CartItem[]
