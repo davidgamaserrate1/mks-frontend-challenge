@@ -24,7 +24,6 @@ const ProductImage = styled.img`
     margin: 0 100% ;
     width: 176px;
     height: 150px;
-    background-color: red;     
 `
 const ProductName = styled.div`
     font-weight: bold;
