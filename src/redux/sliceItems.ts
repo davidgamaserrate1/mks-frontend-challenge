@@ -29,15 +29,27 @@ const sliceItems = createSlice({
             }
             return item;
           });
-          
+        },
+        removeItem(state, { payload }) {
+          return state.filter((item) => item.id !== payload.id);
         },
     }
 })
 
 
 export default sliceItems.reducer
-export const { addItemToCart, decrementItemQuantity } = sliceItems.actions
+export const { addItemToCart, decrementItemQuantity, removeItem } = sliceItems.actions
 
 export const useItems = (state: any) =>{
     return state.items as CartItem[]
 }
+
+export const selectValue = (state: any) => {
+  const total = state.items.reduce((acc:any, item:CartItem) => acc + Number(item.price) * (item.quantity), 0);
+  return total.toFixed(2);
+};
+
+export const countItens = (state: any) => {
+  const totalCount = state.cart.reduce((total:number, item:CartItem) => total + item.quantity, 0);
+  return totalCount || 0;
+};

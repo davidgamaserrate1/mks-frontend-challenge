@@ -1,6 +1,6 @@
 import { useState } from "react"
 import styled from "styled-components"
-import { addItemToCart, decrementItemQuantity, useItems } from "../../redux/sliceItems"
+import { addItemToCart, decrementItemQuantity, removeItem, selectValue, useItems } from "../../redux/sliceItems"
 import {useSelector} from 'react-redux'
 import { CartItem } from "../../types"
 
@@ -29,7 +29,7 @@ const CartDiv = styled.div`
     }
 `
 const CartModal = styled.div`
-    max-height: 400px;
+    max-height: 600px;
     width: 350px;
     background-color: #fff;
     position: fixed;
@@ -102,9 +102,7 @@ const CardItemQuantityControll = styled.div`
             cursor: pointer;
         }
     }
-
 `
-
 const CartItemQuantity = styled.div`
     width: 33.33%;
     text-align: center;
@@ -112,6 +110,14 @@ const CartItemQuantity = styled.div`
     justify-content: center;
     align-items: center;
 `
+const CartItemTotal = styled.div`
+    display: flex;
+    justify-content: space-around;
+    padding: 8px;
+    color: #2D7AFA;
+    font-weight: bold;
+`
+
 const Cart = ( ) =>{
     const [isOpen, setIsOpen] =useState(false)
     const dispatch = useDispatch();
@@ -121,13 +127,20 @@ const Cart = ( ) =>{
     }
 
     const items = useSelector(useItems)
+    const teste = useSelector(selectValue)
 
     const handleAddToCart = (item:CartItem) => {
         dispatch(addItemToCart(item)); 
     };
-    const handleRemoveFroCart = (item:CartItem) => {
+    const handleDecrementCart = (item:CartItem) => {
         dispatch(decrementItemQuantity(item)); 
     };
+
+    const handleRemoveFromCart = (item:CartItem) => {
+        dispatch(removeItem(item)); 
+    };
+
+ 
 
     return (
         <>  
@@ -145,13 +158,18 @@ const Cart = ( ) =>{
                             <CartItemName>{item.name}</CartItemName>
                             <CartItemPrice>R${item.price}</CartItemPrice>
                             <CardItemQuantityControll>
-                                {item.quantity > 1 && <span className="material-symbols-outlined" onClick={()=>handleRemoveFroCart(item)}>remove</span>  }
+                                {item.quantity > 1 && <span className="material-symbols-outlined" onClick={()=>handleDecrementCart(item)}>remove</span>  }
                                 <CartItemQuantity> {item.quantity}  </CartItemQuantity>
                                 <span className="material-symbols-outlined" onClick={()=>handleAddToCart(item)}>add</span>    
-                            </CardItemQuantityControll>    
+                                <span className="material-symbols-outlined" onClick={()=>handleRemoveFromCart(item)}>delete</span>    
+                            </CardItemQuantityControll>
                         </CartItemDiv>
                     ))}
                 </CartItems>
+                <CartItemTotal>
+                    <div> Total</div>
+                    <div>R${teste} </div>
+                </CartItemTotal>  
                 
             </CartModal>
         }
