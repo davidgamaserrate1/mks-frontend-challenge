@@ -1,12 +1,10 @@
 import { useState } from "react"
 import styled from "styled-components"
-import { addItemToCart, decrementItemQuantity, removeItem, selectValue, useItems } from "../../redux/sliceItems"
+import { addItemToCart, countItens, decrementItemQuantity, removeItem, selectValue, useItems } from "../../redux/sliceItems"
 import {useSelector} from 'react-redux'
 import { CartItem } from "../../types"
-
 import { useDispatch } from 'react-redux';
  
-
 const CartDiv = styled.div`
     width: 50px;
     height: 50px;
@@ -19,6 +17,8 @@ const CartDiv = styled.div`
     right: 24px;
     bottom: 24px;
     color: #fff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+
 
     .material-symbols-outlined{
         font-size: 30px;
@@ -38,6 +38,7 @@ const CartModal = styled.div`
     border: 1px solid #f0f0f0;
     border-radius: 15px;
     text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `
 const CartModalTittle = styled.div`
     display: flex;
@@ -117,6 +118,20 @@ const CartItemTotal = styled.div`
     color: #2D7AFA;
     font-weight: bold;
 `
+const CartCountItems = styled.div`
+    position    :absolute ;
+    top: -8px ;
+    right: -1px;
+    background-color: #fff;
+    border: 1px solid #f0f0f0;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-content: center;    
+    color: #000;
+    height: 20px;
+    width: 20px;
+`
 
 const Cart = ( ) =>{
     const [isOpen, setIsOpen] =useState(false)
@@ -127,7 +142,8 @@ const Cart = ( ) =>{
     }
 
     const items = useSelector(useItems)
-    const teste = useSelector(selectValue)
+    const total = useSelector(selectValue)
+    const countItems = useSelector(countItens)
 
     const handleAddToCart = (item:CartItem) => {
         dispatch(addItemToCart(item)); 
@@ -172,12 +188,13 @@ const Cart = ( ) =>{
                 </CartItems>
                 <CartItemTotal>
                     <div> Total</div>
-                    <div>R${teste} </div>
+                    <div>R${total} </div>
                 </CartItemTotal>  
                 
             </CartModal>
         }
         <CartDiv onClick={onOpen}>
+         {countItems >=1 && <CartCountItems>{countItems} </CartCountItems>}
             <span className="material-symbols-outlined">shopping_cart</span>    
         </CartDiv>
         </>

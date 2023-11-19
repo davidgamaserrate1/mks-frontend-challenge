@@ -50,6 +50,6 @@ export const selectValue = (state: any) => {
 };
 
 export const countItens = (state: any) => {
-  const totalCount = state.cart.reduce((total:number, item:CartItem) => total + item.quantity, 0);
+  const totalCount = state.items.reduce((total:number, item:CartItem) => total + item.quantity, 0);
   return totalCount || 0;
 };
