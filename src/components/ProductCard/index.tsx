@@ -1,11 +1,7 @@
 import styled from "styled-components"
 import { Product } from "../../types"
-
-import {useSelector} from 'react-redux'
-import { addItemToCart, useItems } from "../../redux/sliceItems"
+import { addItemToCart } from "../../redux/sliceItems"
 import { useDispatch } from 'react-redux';
-
- 
 
 const ProductDiv = styled.div`
     display:flex;
@@ -23,27 +19,21 @@ const ProductDiv = styled.div`
         transition: 0.1s ease-in;
         transform: scale(1.01) ;
     }
-     
 `
-
 const ProductImage = styled.img`
     margin: 0 100% ;
     width: 176px;
     height: 150px;
     background-color: red;     
 `
-
 const ProductName = styled.div`
     font-weight: bold;
     text-align: center;
-     
 `
-
 const ProductDescription = styled.div`
     margin-left: 8px;
     text-align: left;
 `
-
 const ProductPriceAndCart = styled.div`  
     width: 100%;
     display: flex;
@@ -51,7 +41,7 @@ const ProductPriceAndCart = styled.div`
     align-items: center;
 `
 const ProductPrice = styled.div`   
-font-weight :bold ;
+    font-weight :bold ;
 `
 const ProductAddCartButton = styled.button` 
     color: #fff;
@@ -65,9 +55,6 @@ const ProductAddCartButton = styled.button`
     font-size: 1rem; 
     border-radius: 10px;
 `;
-
-
-
 
 const ProductCard = (props:Product) =>{
     const dispatch = useDispatch();

@@ -1,3 +1,7 @@
+export interface CartItemProps {
+  cart_item: CartItem;
+}
+
 export interface CartItem {
   id: number;
   name: string;

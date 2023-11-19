@@ -1,9 +1,9 @@
 import { useState } from "react"
-import styled from "styled-components"
-import { addItemToCart, countItens, decrementItemQuantity, removeItem, selectValue, useItems } from "../../redux/sliceItems"
+import { countItens, selectValue, useItems } from "../../redux/sliceItems"
 import {useSelector} from 'react-redux'
-import { CartItem } from "../../types"
 import { useDispatch } from 'react-redux';
+import styled from "styled-components"
+import CartItemRow  from "../CartItem"
  
 const CartDiv = styled.div`
     width: 50px;
@@ -18,7 +18,6 @@ const CartDiv = styled.div`
     bottom: 24px;
     color: #fff;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
-
 
     .material-symbols-outlined{
         font-size: 30px;
@@ -75,42 +74,6 @@ const CartItems = styled.div`
     border: 1px solid #f0f0f0;
     padding: 4px;
 `
-
-const CartItemDiv = styled.div`
-    display: flex;
-    width: 100%;
-    justify-content :space-around ;
-    align-items: center;
-    margin: 4px 0;
-    border-bottom: 1px solid #f0f0f0;
-    padding: 4px;
-`
-const CartItemName = styled.div`
-   width: 33.33%;
-   text-align: left;
-`
-const CartItemPrice = styled.div`
-    width: 33.33%;
-    text-align: center;
-`
-const CardItemQuantityControll = styled.div`
-    display: flex;
-    width: 33.33%;
-    border: 1px solid #f0f0f0;
-    justify-content: center;
-    .material-symbols-outlined{
-        &:hover{
-            cursor: pointer;
-        }
-    }
-`
-const CartItemQuantity = styled.div`
-    width: 33.33%;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`
 const CartItemTotal = styled.div`
     display: flex;
     justify-content: space-around;
@@ -135,7 +98,6 @@ const CartCountItems = styled.div`
 
 const Cart = ( ) =>{
     const [isOpen, setIsOpen] =useState(false)
-    const dispatch = useDispatch();
 
     const onOpen = ()=>{
         setIsOpen(!isOpen)
@@ -144,18 +106,6 @@ const Cart = ( ) =>{
     const items = useSelector(useItems)
     const total = useSelector(selectValue)
     const countItems = useSelector(countItens)
-
-    const handleAddToCart = (item:CartItem) => {
-        dispatch(addItemToCart(item)); 
-    };
-    const handleDecrementCart = (item:CartItem) => {
-        dispatch(decrementItemQuantity(item)); 
-    };
-
-    const handleRemoveFromCart = (item:CartItem) => {
-        dispatch(removeItem(item)); 
-    };
-
  
 
     return (
@@ -171,26 +121,18 @@ const Cart = ( ) =>{
                 <CartItems>
                     {items.length> 0 ? (
                         items.map((item)=>(
-                            <CartItemDiv>
-                                <CartItemName>{item.name}</CartItemName>
-                                <CartItemPrice>R${item.price}</CartItemPrice>
-                                <CardItemQuantityControll>
-                                    {item.quantity > 1 && <span className="material-symbols-outlined" onClick={()=>handleDecrementCart(item)}>remove</span>  }
-                                    <CartItemQuantity> {item.quantity}  </CartItemQuantity>
-                                    <span className="material-symbols-outlined" onClick={()=>handleAddToCart(item)}>add</span>    
-                                    <span className="material-symbols-outlined" onClick={()=>handleRemoveFromCart(item)}>delete</span>    
-                                </CardItemQuantityControll>
-                            </CartItemDiv>
+                            <CartItemRow
+                                key={item.id} 
+                                cart_item={item}
+                            />
                         ))
-                    ): <>Carrinho vazio</>
-                    }
+                    ): <> Carrinho vazio</>}
                     
                 </CartItems>
                 <CartItemTotal>
                     <div> Total</div>
                     <div>R${total} </div>
-                </CartItemTotal>  
-                
+                </CartItemTotal>
             </CartModal>
         }
         <CartDiv onClick={onOpen}>
