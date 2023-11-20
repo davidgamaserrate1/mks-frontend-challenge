@@ -12,6 +12,7 @@ Este é um projeto desenvolvido como parte de um desafio técnico. A aplicação
 - React
 - React-query
 - Styled-components
+- Reduxjs/toolkit
 
 ## Instalação
 1. Clone o repositório: `git clone https://github.com/davidgamaserrate1/mks-frontend-challenge.git`
@@ -30,4 +31,4 @@ Este projeto foi implantado na [Vercel](https://vercel.com/)
 ## Contato
 - David Gama Serrate
 - contato.davidserrate@gmail.com
-
+- [Linkedin](https://www.linkedin.com/in/david-gama-dev/]=)
